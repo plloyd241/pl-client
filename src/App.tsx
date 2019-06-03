@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+
+import './App.scss'
+
+import Home from './components/Home'
+import About from './components/About'
+import Skills from './components/Skills'
+
+import AppNav from './components/AppNav'
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <Route render={({ location }) => (
+        <div className="app">
+          <AppNav />
+
+          <TransitionGroup className="app-content">
+            <CSSTransition key={location.key} classNames="fade" timeout={300}>
+              <Switch location={location}>
+                <Route exact path="/" component={Home} />
+                <Route path="/about" component={About} />
+                <Route path="/skills" component={Skills} />
+              </Switch>
+            </CSSTransition>
+          </TransitionGroup>
+        </div>
+      )}/>
+    </Router>
+  )
 }
 
-export default App;
+export default App
